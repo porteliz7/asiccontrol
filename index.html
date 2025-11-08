@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gestor de Granja de Minería Bitcoin</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="styles/style.css">
+</head>
+<body>
+    <div class="container">
+        <header class="header">
+            <h1>🏭 Gestor de Granja Bitcoin</h1>
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-label">Máquinas Totales</div>
+                    <div class="stat-value" id="total-machines">0/840</div>
+                    <div class="progress-bar">
+                        <div class="progress-fill" style="width: 0%"></div>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-label">Activas</div>
+                    <div class="stat-value" id="active-machines">0</div>
+                    <div class="stat-label">✅ Operativas</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-label">Con Problemas</div>
+                    <div class="stat-value" id="problem-machines">0</div>
+                    <div class="stat-label">⚠️ Requieren atención</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-label">Capacidad</div>
+                    <div class="stat-value" id="capacity-percent">0%</div>
+                    <div class="stat-label">📊 Utilizada</div>
+                </div>
+            </div>
+            
+            <div class="controls">
+                <button class="btn btn-primary" id="add-machine-btn">
+                    <i class="fas fa-plus"></i> Agregar Máquina
+                </button>
+                <button class="btn" id="export-data-btn">
+                    <i class="fas fa-download"></i> Exportar Datos
+                </button>
+                <button class="btn btn-secondary" id="refresh-btn">
+                    <i class="fas fa-sync-alt"></i> Actualizar
+                </button>
+            </div>
+        </header>
+
+        <div class="container-selector" id="container-selector">
+            <!-- Los botones se generarán dinámicamente -->
+        </div>
+
+        <div class="farm-visualization">
+            <h2 class="section-title">
+                <i class="fas fa-map-marked-alt"></i> 
+                Mapa de Container <span id="current-container">1</span>
+            </h2>
+            <div class="shelves-grid" id="shelves-container">
+                <!-- Los estantes se generarán dinámicamente -->
+            </div>
+        </div>
+
+        <div class="machine-details" id="machine-details" style="display: none;">
+            <h2 class="section-title">
+                <i class="fas fa-server"></i> Detalles de la Máquina
+            </h2>
+            <div class="machine-form" id="machine-form">
+                <!-- El formulario se generará dinámicamente -->
+            </div>
+        </div>
+    </div>
+
+    <script src="scripts/script.js"></script>
+</body>
+</html>
