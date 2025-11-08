@@ -446,4 +446,148 @@ function exportData() {
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
+    // === AGREGA ESTAS FUNCIONES NUEVAS AL FINAL DE TU script.js ===
+
+// Función para actualizar barras de progreso (NUEVA)
+function updateProgressBars() {
+    const totalMachines = parseInt(document.getElementById('total-machines').textContent.split('/')[0]);
+    const progressFill = document.querySelector('.progress-fill');
+    const capacityPercent = document.getElementById('capacity-percent');
+    
+    const percent = (totalMachines / 840) * 100;
+    if (progressFill) {
+        progressFill.style.width = `${percent}%`;
+    }
+    if (capacityPercent) {
+        capacityPercent.textContent = `${Math.round(percent)}%`;
+    }
+}
+
+// Botón de actualizar (NUEVO)
+function setupRefreshButton() {
+    const refreshBtn = document.getElementById('refresh-btn');
+    if (refreshBtn) {
+        refreshBtn.addEventListener('click', function() {
+            renderShelves(currentContainer);
+            updateStats();
+            alert('Datos actualizados correctamente');
+        });
+    }
+}
+
+// === ACTUALIZA la función updateStats() existente ===
+// BUSCA esta función en tu script.js y MODIFÍCALA:
+
+function updateStats() {
+    let totalMachines = 0;
+    let activeMachines = 0;
+    let problemMachines = 0;
+    
+    farmData.containers.forEach(container => {
+        container.shelves.forEach(shelf => {
+            shelf.tramos.forEach(tramo => {
+                tramo.machines.forEach(machine => {
+                    if (machine.status !== 'empty') {
+                        totalMachines++;
+                        if (machine.status === 'active') activeMachines++;
+                        if (machine.status === 'problem') problemMachines++;
+                    }
+                });
+            });
+        });
+    });
+    
+    document.getElementById('total-machines').textContent = `${totalMachines}/840`;
+    document.getElementById('active-machines').textContent = activeMachines;
+    document.getElementById('problem-machines').textContent = problemMachines;
+    
+    // === AGREGA ESTA LÍNEA NUEVA ===
+    updateProgressBars();
+}
+
+// === ACTUALIZA la función setupEventListeners() existente ===
+// BUSCA esta función y MODIFÍCALA:
+
+function setupEventListeners() {
+    // Botón para agregar máquina
+    document.getElementById('add-machine-btn').addEventListener('click', function() {
+        showAddMachineForm();
+    });
+    
+    // Botón para exportar datos
+    document.getElementById('export-data-btn').addEventListener('click', function() {
+        exportData();
+    });
+    
+    // === AGREGA ESTA LÍNEA NUEVA ===
+    setupRefreshButton();
+}
+
+// === AGREGA esta función para mejorar los estantes ===
+function renderShelves(containerId) {
+    const shelvesContainer = document.getElementById('shelves-container');
+    shelvesContainer.innerHTML = '';
+    
+    const container = farmData.containers.find(c => c.id === containerId);
+    
+    container.shelves.forEach(shelf => {
+        const shelfElement = document.createElement('div');
+        shelfElement.className = 'shelf-card';
+        shelfElement.setAttribute('data-shelf', shelf.id);
+        
+        // Calcular estadísticas del estante
+        let totalMachines = 0;
+        let activeMachines = 0;
+        let problemMachines = 0;
+        
+        shelf.tramos.forEach(tramo => {
+            tramo.machines.forEach(machine => {
+                if (machine.status !== 'empty') {
+                    totalMachines++;
+                    if (machine.status === 'active') activeMachines++;
+                    if (machine.status === 'problem') problemMachines++;
+                }
+            });
+        });
+        
+        // Generar mini visualización de tramos
+        const tramosMini = shelf.tramos.map(tramo => {
+            const occupied = tramo.machines.filter(m => m.status !== 'empty').length;
+            let tramoClass = 'tramo-mini';
+            if (occupied > 0) {
+                tramoClass += ' tramo-occupied';
+            }
+            return `<div class="${tramoClass}" title="Tramo ${tramo.id}: ${occupied}/5">${occupied}</div>`;
+        }).join('');
+        
+        shelfElement.innerHTML = `
+            <div class="shelf-header">
+                <div class="shelf-title">🏗️ Estante ${shelf.id}</div>
+                <div class="shelf-stats">
+                    <span>${totalMachines}/35</span>
+                    <span>✅ ${activeMachines}</span>
+                    <span>⚠️ ${problemMachines}</span>
+                </div>
+            </div>
+            <div class="progress-bar">
+                <div class="progress-fill" style="width: ${(totalMachines/35)*100}%"></div>
+            </div>
+            <div class="tramos-mini">
+                ${tramosMini}
+            </div>
+            <div style="margin-top: 10px; font-size: 0.8rem; text-align: center;">
+                👆 Haz clic para ver detalles
+            </div>
+        `;
+        
+        // Agregar evento para mostrar detalles del estante
+        shelfElement.addEventListener('click', function() {
+            showShelfDetails(containerId, shelf.id);
+        });
+        
+        shelvesContainer.appendChild(shelfElement);
+    });
+}
+
+
 }
