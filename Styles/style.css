@@ -1,0 +1,56 @@
+<meta name='viewport' content='width=device-width, initial-scale=1'/><style>:root {
+    --primary-color: #2c3e50;
+    --secondary-color: #3498db;
+    --accent-color: #e74c3c;
+    --light-color: #ecf0f1;
+    --dark-color: #2c3e50;
+    --success-color: #2ecc71;
+    --warning-color: #f39c12;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+body {
+    background-color: #f5f7fa;
+    color: var(--dark-color);
+    line-height: 1.6;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+header {
+    background-color: var(--primary-color);
+    color: white;
+    padding: 1rem 0;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+header h1 {
+    text-align: center;
+    margin-bottom: 0.5rem;
+}
+
+/* ... (todo el CSS que tenías en el style tag) ... */
+
+@media (max-width: 768px) {
+    .shelves-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+    
+    .machine-form {
+        grid-template-columns: 1fr;
+    }
+    
+    .tramos-grid {
+        grid-template-columns: repeat(4, 1fr);
+    }
+}</style>
